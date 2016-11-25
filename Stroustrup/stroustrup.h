@@ -1,0 +1,1 @@
+/* First training header file for Stroustup exercises*/
