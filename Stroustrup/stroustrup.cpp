@@ -25,6 +25,37 @@ void HelloWorld()
     std::cout << "Hello world" << '\n';
 }
 
+void PrintSymbols()
+{
+    // print alphabet symbols and their codes
+    for (int i = int('a'); i <= int('z'); i ++)
+    {
+        std::cout << char(i) << " (" << i << "), ";
+    }
+    std::cout << '\n';
+
+    // print digits 0-9 and their codes
+    for (int i = int('0'); i <= int('9'); i ++)
+    {
+        std::cout << char(i) << " (" << i << "), ";
+    }
+    std::cout << '\n';
+
+    // print alphabet symbols and their codes in hex
+    for (int i = int('a'); i <= int('z'); i ++)
+    {
+        std::cout << char(i) << " (0x" << std::hex << i << "), ";
+    }
+    std::cout << '\n';
+
+    // print digits 0-9 and their codes in hex
+    for (int i = int('0'); i <= int('9'); i ++)
+    {
+        std::cout << char(i) << " (0x" << std::hex << i << "), ";
+    }
+    std::cout << '\n';
+}
+
 int main()
 {
     bool incorrectInput = true;
@@ -49,6 +80,10 @@ int main()
             break;
         case 43:
             PrintSizesOfTypes();
+            break;
+
+        case 44:
+            PrintSymbols();
             break;
         default:
             std::cout << "Incorrect exercise number. Please reenter.\n";
