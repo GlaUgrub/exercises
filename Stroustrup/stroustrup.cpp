@@ -1,6 +1,7 @@
 /* First training cpp file for Stroustup exercises*/
 
 #include <iostream>
+#include <limits>
 #include "stroustrup.h"
 
 void PrintSizesOfTypes()
@@ -56,6 +57,21 @@ void PrintSymbols()
     std::cout << '\n';
 }
 
+#define PRINT_LIMITS(type) \
+std::cout << "["#type"] limits are: [" << std::numeric_limits<type>::min() << ", " << std::numeric_limits<type>::max() << "]\n";
+
+void PrintLimits()
+{
+    PRINT_LIMITS(char);
+    PRINT_LIMITS(short);
+    PRINT_LIMITS(int);
+    PRINT_LIMITS(long);
+    PRINT_LIMITS(float);
+    PRINT_LIMITS(double);
+    PRINT_LIMITS(long double);
+    PRINT_LIMITS(unsigned);
+}
+
 int main()
 {
     bool incorrectInput = true;
@@ -81,9 +97,11 @@ int main()
         case 43:
             PrintSizesOfTypes();
             break;
-
         case 44:
             PrintSymbols();
+            break;
+        case 45:
+            PrintLimits();
             break;
         default:
             std::cout << "Incorrect exercise number. Please reenter.\n";
