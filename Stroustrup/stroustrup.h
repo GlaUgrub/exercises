@@ -3,6 +3,7 @@
 #include <string>
 #include <complex>
 
+/*Declarations and difinitions from task 4.1*/
 char ch; // definition
 
 std::string s; // definition
@@ -62,3 +63,18 @@ namespace NS  // definition
 {
     int a;
 }
+
+/*Declarations and difinitions from task 5.1*/
+
+char* pC = "Hello";
+int arr[10] = {0, 1, 2};
+
+// (*pStrArr) means that pStrArr is a poiner to some object with base type [char]. Nature of this object is clarified outside of round brackets - it's *char[4].
+char *(*pStrArr)[4];
+char *strArr[] = {"a", "bb", "ccc", "dddd"};
+char *(*pStrArrDef)[4] = &strArr;
+
+char** ppC = &pC;
+const int constInteger = 10;
+int const * pToConstInt = &constInteger;
+int * const pConstToInt = arr;
