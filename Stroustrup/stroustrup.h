@@ -78,3 +78,19 @@ char** ppC = &pC;
 const int constInteger = 10;
 int const * pToConstInt = &constInteger;
 int * const pConstToInt = arr;
+
+/*Declarations and difinitions from task 5.3*/
+
+typedef unsigned char UCH;
+typedef const unsigned char CUCH;
+typedef int* pI;
+typedef char  **ppCH;
+//pointer to array of char
+typedef char (*pCHarr)[];
+// array of 7 pointers to int
+typedef int *arr7pI[7];
+// pointer to an array of 7 pointers to int
+typedef int *(*parr7pI)[7];
+// array of 8 arrays of 7 pointers to int
+typedef int arr8arr7pI[8][7];
+
