@@ -72,6 +72,28 @@ void PrintLimits()
     PRINT_LIMITS(unsigned);
 }
 
+void PrintInfoAboutPoiners()
+{
+    std::cout << "Size of char* = " << sizeof(char*) << "\n";
+    std::cout << "Size of int*  = " << sizeof(char*) << "\n";
+    std::cout << "Size of void* = " << sizeof(char*) << "\n";
+
+    const int arrLength = 4;
+    char chArr[arrLength];
+    int  intArr[arrLength];
+
+    std::cout << "char:\n";
+    for (int i = 0; i < arrLength; i++)
+    {
+        std::cout << "&chArr[" << i << "] = " << (void*)&chArr[i] << "\n";
+    }
+    std::cout << "int:\n";
+    for (int i = 0; i < arrLength; i++)
+    {
+        std::cout << "&intArr[" << i << "] = " << &intArr[i] << "\n";
+    }
+}
+
 int main()
 {
     bool incorrectInput = true;
@@ -102,6 +124,9 @@ int main()
             break;
         case 45:
             PrintLimits();
+            break;
+        case 52:
+            PrintInfoAboutPoiners();
             break;
         default:
             std::cout << "Incorrect exercise number. Please reenter.\n";
