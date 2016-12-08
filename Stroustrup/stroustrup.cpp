@@ -123,6 +123,52 @@ void PrintSwappedNumbers()
     std::cout << "Swapped again (by refs): " << first << ", " << second << "\n";
 }
 
+/*functions for exercise 5.6*/
+
+void f(char ch)
+{
+    std::cout << ch;
+}
+
+void g(char& rch)
+{
+    std::cout << rch;
+}
+
+void h(const char& crch)
+{
+    std::cout << crch;
+}
+
+void CheckFunctionsWithCharInput()
+{
+    char c = 10;
+    unsigned char uc = 10;
+    signed char sc = -10;
+
+    f('a');
+    f(49);
+    f(3300); // truncation to char
+    f(c);
+    f(uc);
+    f(sc);
+
+    //g('a'); // error: 'a' isn't lvalue
+    //g(49); // error: 49 isn't lvalue
+    //g(3300); // error: 3300 isn't lvalue
+    g(c);
+    //g(uc); // error: lvalue of type T is required to initialize T&
+    //g(sc); // error: lvalue of type T is required to initialize T&
+
+    h('a'); // temporal variable is created as local variable in the function to place 'a' there
+    h(49); // temporal variable is created as local variable in the function to place 49 there
+    h(3300); // temporal variable is created as local variable in the function to place char(3300) there
+    h(c);
+    h(uc);
+    h(sc);
+
+}
+
 int main()
 {
     bool incorrectInput = true;
