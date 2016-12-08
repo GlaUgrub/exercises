@@ -4,6 +4,13 @@
 #include <limits>
 #include "stroustrup.h"
 
+/*functions for exercise 4.1*/
+void HelloWorld()
+{
+    std::cout << "Hello world" << '\n';
+}
+
+/*functions for exercise 4.3*/
 void PrintSizesOfTypes()
 {
     std::cout << "Size of char        = " << sizeof(char) << "\n";
@@ -21,11 +28,7 @@ void PrintSizesOfTypes()
 
 }
 
-void HelloWorld()
-{
-    std::cout << "Hello world" << '\n';
-}
-
+/*functions for exercise 4.4*/
 void PrintSymbols()
 {
     // print alphabet symbols and their codes
@@ -57,6 +60,7 @@ void PrintSymbols()
     std::cout << '\n';
 }
 
+/*functions for exercise 4.5*/
 #define PRINT_LIMITS(type) \
 std::cout << "["#type"] limits are: [" << std::numeric_limits<type>::min() << ", " << std::numeric_limits<type>::max() << "]\n";
 
@@ -72,6 +76,7 @@ void PrintLimits()
     PRINT_LIMITS(unsigned);
 }
 
+/*functions for exercise 5.2*/
 void PrintInfoAboutPoiners()
 {
     std::cout << "Size of char* = " << sizeof(char*) << "\n";
@@ -94,6 +99,7 @@ void PrintInfoAboutPoiners()
     }
 }
 
+/*functions for exercise 5.4*/
 void SwapNumbers(int* first, int* second)
 {
     int tmp = *first;
@@ -124,7 +130,6 @@ void PrintSwappedNumbers()
 }
 
 /*functions for exercise 5.6*/
-
 void f(char ch)
 {
     std::cout << ch;
