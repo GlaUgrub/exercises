@@ -94,6 +94,35 @@ void PrintInfoAboutPoiners()
     }
 }
 
+void SwapNumbers(int* first, int* second)
+{
+    int tmp = *first;
+    *first = *second;
+    *second = tmp;
+}
+
+void SwapNumbers(int& first, int& second)
+{
+    int tmp = first;
+    first = second;
+    second = tmp;
+}
+
+void PrintSwappedNumbers()
+{
+    int first;
+    int second;
+    std::cout << "Enter numbers:\n";
+    std::cin >> first;
+    std::cin >> second;
+
+    SwapNumbers(&first, &second);
+    std::cout << "Swapped numbers (by pointers): " << first << ", " << second << "\n";
+
+    SwapNumbers(first, second);
+    std::cout << "Swapped again (by refs): " << first << ", " << second << "\n";
+}
+
 int main()
 {
     bool incorrectInput = true;
@@ -127,6 +156,9 @@ int main()
             break;
         case 52:
             PrintInfoAboutPoiners();
+            break;
+        case 54:
+            PrintSwappedNumbers();
             break;
         default:
             std::cout << "Incorrect exercise number. Please reenter.\n";
