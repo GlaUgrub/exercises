@@ -174,6 +174,23 @@ void CheckFunctionsWithCharInput()
 
 }
 
+/*functions for exercise 5.7*/
+
+void PrintMonthsLengths()
+{
+    std::cout << "Output via arrays:\n";
+    for (int i = 0; i < monthsNum; i++)
+    {
+        std::cout << monthsNames[i] << " " << monthsLengths[i] << '\n';
+    }
+
+    std::cout << "\nOutput via structure:\n";
+    for (int i = 0; i < monthsNum; i++)
+    {
+        std::cout << months[i].name << " " << months[i].length << '\n';
+    }
+}
+
 int main()
 {
     bool incorrectInput = true;
@@ -210,6 +227,9 @@ int main()
             break;
         case 54:
             PrintSwappedNumbers();
+            break;
+        case 57:
+            PrintMonthsLengths();
             break;
         default:
             std::cout << "Incorrect exercise number. Please reenter.\n";

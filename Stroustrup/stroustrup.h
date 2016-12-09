@@ -94,3 +94,20 @@ typedef int *(*parr7pI)[7];
 // array of 8 arrays of 7 pointers to int
 typedef int arr8arr7pI[8][7];
 
+/*Declarations and difinitions from task 5.7*/
+const int monthsNum = 12;
+
+const char* monthsNames[monthsNum] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+const int monthsLengths[monthsNum] = { 31, 30, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+struct Month
+{
+    char* name;
+    int length;
+};
+
+const Month months[monthsNum] = {
+    {"Jan", 31}, {"Feb", 30}, {"Mar", 31},
+    {"Apr", 30}, {"May", 31}, {"Jun", 30},
+    {"Jul", 31}, {"Aug", 31}, {"Sep", 30},
+    {"Oct", 31}, {"Nov", 30}, {"Dec", 31} };
