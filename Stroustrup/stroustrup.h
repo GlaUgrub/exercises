@@ -111,3 +111,25 @@ const Month months[monthsNum] = {
     {"Apr", 30}, {"May", 31}, {"Jun", 30},
     {"Jul", 31}, {"Aug", 31}, {"Sep", 30},
     {"Oct", 31}, {"Nov", 30}, {"Dec", 31} };
+
+/*Declarations and difinitions from task 5.8*/
+
+// for Windows only
+#include <intrin.h>
+
+typedef unsigned long long ULL;
+
+ULL Tick()
+{
+    return __rdtsc();
+}
+
+ULL Tock(ULL start)
+{
+    return __rdtsc() - start;
+}
+
+const size_t arrayLen = 5000000;
+int perfArray[arrayLen] = {};
+const int numOfPassesNonOptimized = 1000;
+const int numOfPassesOptimized = 10000;

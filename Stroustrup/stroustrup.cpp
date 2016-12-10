@@ -175,7 +175,6 @@ void CheckFunctionsWithCharInput()
 }
 
 /*functions for exercise 5.7*/
-
 void PrintMonthsLengths()
 {
     std::cout << "Output via arrays:\n";
@@ -189,6 +188,56 @@ void PrintMonthsLengths()
     {
         std::cout << months[i].name << " " << months[i].length << '\n';
     }
+}
+
+/*functions for exercise 5.8*/
+void MeasurePassingThroughArray()
+{
+    ULL timeIndex, timePtr;
+    int numOfPasses = numOfPassesNonOptimized / 2;
+
+    // warming up to reach boost CPU frequency
+    for (int i = 0; i < numOfPasses; i++)
+    {
+        for (int j = 0; j < arrayLen; j++)
+        {
+            perfArray[j] = j;
+        }
+    }
+
+    numOfPasses = numOfPassesNonOptimized;
+
+    // measurement by index
+    timeIndex = Tick();
+    for (int i = 0; i < numOfPasses; i ++)
+    {
+        for (size_t j = 0; j < arrayLen; j ++)
+        {
+            perfArray[j] = i;
+        }
+    }
+    timeIndex = Tock(timeIndex);
+
+    // measurement by pointer
+    timePtr = Tick();
+    int *const pArrStart = perfArray;
+    int *const pArrEnd = &perfArray[arrayLen];
+
+    for (int i = 0; i < numOfPasses; i++)
+    {
+        for (int* p = pArrStart; p < pArrEnd; p ++)
+        {
+            *p = i;
+        }
+    }
+    timePtr = Tock(timePtr);
+
+    // print results
+    std::cout << "By index\n";
+    std::cout << "Tick count = " << timeIndex << '\n';
+
+    std::cout << "\nBy pointer\n";
+    std::cout << "Tick count = " << timePtr << '\n';
 }
 
 int main()
@@ -230,6 +279,9 @@ int main()
             break;
         case 57:
             PrintMonthsLengths();
+            break;
+        case 58:
+            MeasurePassingThroughArray();
             break;
         default:
             std::cout << "Incorrect exercise number. Please reenter.\n";
