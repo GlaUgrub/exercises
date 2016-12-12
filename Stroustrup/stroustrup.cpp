@@ -240,6 +240,17 @@ void MeasurePassingThroughArray()
     std::cout << "Tick count = " << timePtr << '\n';
 }
 
+/*functions for exercise 5.10*/
+typedef char *ArrOfMonths[monthsNum];
+void PrintArrayOfMonths(ArrOfMonths arrOfMonths)
+{
+    std::cout << "Names of 12 months:\n";
+    for (int i = 0; i < monthsNum; i++)
+    {
+        std::cout << arrOfMonths[i] << '\n';
+    }
+}
+
 int main()
 {
     bool incorrectInput = true;
@@ -251,11 +262,6 @@ int main()
 
         std::cin >> exerciseNumber;
         std::cout << '\n';
-        if (exerciseNumber < 41 || int(exerciseNumber) > 250) // out of valid range
-        {
-            std::cout << "Incorrect exercise number. Please reenter.\n";
-            continue;
-        }
 
         switch (exerciseNumber)
         {
@@ -282,6 +288,9 @@ int main()
             break;
         case 58:
             MeasurePassingThroughArray();
+            break;
+        case 510:
+            PrintArrayOfMonths(arrOfMonths);
             break;
         default:
             std::cout << "Incorrect exercise number. Please reenter.\n";

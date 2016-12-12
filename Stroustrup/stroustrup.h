@@ -133,3 +133,16 @@ const size_t arrayLen = 5000000;
 int perfArray[arrayLen] = {};
 const int numOfPassesNonOptimized = 1000;
 const int numOfPassesOptimized = 10000;
+
+/*Declarations and difinitions from task 5.9*/
+// definition of list of structures. E.g.
+struct ListEntry
+{
+    ListEntry* next;
+    int something1;
+    int something2;
+};
+
+/*Declarations and difinitions from task 5.10*/
+typedef char *ArrOfMonths[monthsNum];
+ArrOfMonths arrOfMonths = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
