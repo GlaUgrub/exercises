@@ -1,6 +1,9 @@
 /* First training cpp file for Stroustup exercises*/
 
 #include <iostream>
+#include <iterator>
+#include <vector>
+#include <algorithm>
 #include <limits>
 #include "stroustrup.h"
 
@@ -251,6 +254,35 @@ void PrintArrayOfMonths(ArrOfMonths arrOfMonths)
     }
 }
 
+/*functions for exercise 5.11*/
+void PrintWordsFromInput()
+{
+    std::string word = "";
+    // initialize vector with input
+    std::vector<std::string> words;
+
+    std::cout << "Enter your words:\n";
+    std::cin >> word;
+    while (word != "Quit")
+    {
+        words.push_back(word);
+        std::cin >> word;
+    }
+
+    std::ostream_iterator<std::string> output(std::cout, " ");
+
+    // print words in order of enter
+    std::cout << "Words in order of enter:\n";
+    std::copy(words.begin(), words.end(), output);
+    std::cout << '\n';
+
+    // sort and print w/o duplicates
+    std::cout << "Words sorted and w/o duplicates:\n";
+    std::sort(words.begin(), words.end());
+    std::unique_copy(words.begin(), words.end(), output);
+    std::cout << '\n';
+}
+
 int main()
 {
     bool incorrectInput = true;
@@ -291,6 +323,9 @@ int main()
             break;
         case 510:
             PrintArrayOfMonths(arrOfMonths);
+            break;
+        case 511:
+            PrintWordsFromInput();
             break;
         default:
             std::cout << "Incorrect exercise number. Please reenter.\n";
