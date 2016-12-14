@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iterator>
 #include <vector>
+#include <map>
 #include <algorithm>
 #include <limits>
 #include "stroustrup.h"
@@ -283,6 +284,62 @@ void PrintWordsFromInput()
     std::cout << '\n';
 }
 
+/*functions for exercise 5.12*/
+typedef std::map<std::string, int> Pairs;
+
+void Print(std::pair<std::string, int> in)
+{
+    if (in.second > 1)
+    {
+        std::cout << in.first << " " << in.second << '\n';
+    }
+}
+
+void CalcPairsOfSymbols(std::string& str)
+{
+    size_t len = str.length();
+    if (len < 2)
+    {
+        std::cout << "Sting has length " << len << '\n';
+        return;
+    }
+
+    Pairs pairs;
+
+    for (int i = 0; i < len - 1; i++)
+    {
+        // get pair from the string
+        std::string pair = str.substr(i, 2);
+
+        // try to insert the pair to the map
+        std::pair<Pairs::iterator, bool> ret;
+        ret = pairs.insert(std::pair<std::string, int>(pair, 0));
+
+        // check result of insertion
+        if (ret.second == true)
+        {
+            // pair encountered 1st time. Set counter to 1.
+            ret.first->second = 1;
+        }
+        else
+        {
+            // pair is already in the map. Increment the counter.
+            ret.first->second++;
+        }
+    }
+
+    std::for_each(pairs.begin(), pairs.end(), Print);
+}
+
+void Exercise512()
+{
+    std::string inputString;
+    std::cout << "Enter sequence of letters\n";
+    std::cin >> inputString;
+
+    CalcPairsOfSymbols(inputString);
+}
+
 int main()
 {
     bool incorrectInput = true;
@@ -326,6 +383,9 @@ int main()
             break;
         case 511:
             PrintWordsFromInput();
+            break;
+        case 512:
+            Exercise512();
             break;
         default:
             std::cout << "Incorrect exercise number. Please reenter.\n";
