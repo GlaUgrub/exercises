@@ -146,3 +146,29 @@ struct ListEntry
 /*Declarations and difinitions from task 5.10*/
 typedef char *ArrOfMonths[monthsNum];
 ArrOfMonths arrOfMonths = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+/*Declarations and difinitions from task 5.13*/
+
+template<typename T> void Zero(T& obj)
+{
+
+}
+
+struct MyDate
+{
+    const int dayDigits = 2;
+    const int monthDigits = 2;
+    const int yearDigits = 4;
+    const int dateLen = 10; // dayDigits + monthDigits + yearDigits + 2 (dots)
+
+    const std::string monthsNames[monthsNum] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+    const int monthsLengths[monthsNum] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+    MyDate();
+    void Print();
+    bool Init(const std::string&);
+
+    int dd;
+    int mm;
+    int yyyy;
+};

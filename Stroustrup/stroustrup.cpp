@@ -340,6 +340,79 @@ void Exercise512()
     CalcPairsOfSymbols(inputString);
 }
 
+MyDate::MyDate()
+{
+    dd = 16;
+    mm = 9;
+    yyyy = 1984;
+}
+
+/*functions for exercise 5.13*/
+bool MyDate::Init(std::string const & init)
+{
+    if (init.length() != dateLen
+        || init.substr(dayDigits, 1) != "."
+        || init.substr(dayDigits + monthDigits + 1, 1) != ".")
+    {
+        return false;
+    }
+
+    std::string day = init.substr(0, dayDigits);
+    std::string month = init.substr(dayDigits + 1, monthDigits);
+    std::string year = init.substr(dayDigits + monthDigits + 2, yearDigits);
+
+    try
+    {
+        mm = std::stoi(month);
+        if (mm <= 0 || mm > monthsNum)
+        {
+            return false;
+        }
+
+        dd = std::stoi(day);
+        if (dd <= 0 || dd > monthsLengths[mm - 1])
+        {
+            return false;
+        }
+
+        yyyy = std::stoi(year);
+        if (yyyy < 0)
+        {
+            return false;
+        }
+    }
+
+    catch(...)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+void MyDate::Print()
+{
+    std::cout << dd << " " << monthsNames[mm - 1] << " of " << yyyy << '\n';
+}
+
+void ReadDateAndPrint()
+{
+    std::string dateStr;
+    std::cout << "Enter date in format dd.mm.yyyy: \n";
+    std::cin >> dateStr;
+
+    MyDate date = MyDate();
+
+    if (date.Init(dateStr))
+    {
+        date.Print();
+    }
+    else
+    {
+        std::cout << "Incorrect date!\n";
+    }
+}
+
 int main()
 {
     bool incorrectInput = true;
@@ -386,6 +459,9 @@ int main()
             break;
         case 512:
             Exercise512();
+            break;
+        case 513:
+            ReadDateAndPrint();
             break;
         default:
             std::cout << "Incorrect exercise number. Please reenter.\n";
