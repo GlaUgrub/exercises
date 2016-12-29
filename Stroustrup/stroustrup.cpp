@@ -413,16 +413,29 @@ void ReadDateAndPrint()
     }
 }
 
-int main()
+int main(int argc, char** argv)
 {
-    bool incorrectInput = true;
+    bool incorrectInput = false;
     int exerciseNumber = 0;
+    std::istream* input = 0;
 
-    while (incorrectInput == true)
+    switch (argc)
     {
-        std::cout << "Please enter exercise number:";
+    case 1:
+        input = &std::cin;
+        std::cout << "Please enter exercise number: ";
+        break;
+    case 2:
+        input = new std::istringstream(argv[1]);
+        break;
+    default:
+        incorrectInput = true;
+        break;
+    }
 
-        std::cin >> exerciseNumber;
+    if (incorrectInput == false)
+    {
+        *input >> exerciseNumber;
         std::cout << '\n';
 
         switch (exerciseNumber)
@@ -464,11 +477,18 @@ int main()
             ReadDateAndPrint();
             break;
         default:
-            std::cout << "Incorrect exercise number. Please reenter.\n";
-            continue;
+            incorrectInput = true;
         }
+    }
 
-        incorrectInput = false;
+    if (input != &std::cin)
+    {
+        delete input;
+    }
+
+    if (incorrectInput == true)
+    {
+        std::cout << "\n Incorrect exercise number!\n";
     }
 
     return 0;
