@@ -6,6 +6,7 @@ from multiprocessing import Process, Queue
 import plotly
 import plotly.plotly as py
 import plotly.graph_objs as go
+import datetime
 
 LOGIN = "dummy"
 PASSWORD = "dummy"
@@ -30,12 +31,19 @@ def print_counters(q):
         diff = end[1] - start[1]
         bytes_per_second.append(diff)
 
+def duration(start_time):
+    cur_time = datetime.datetime.now()
+    duration = cur_time - start_time
+    return duration.total_seconds()
+
 if __name__ == '__main__':
     q = Queue()
     p = Process(target=print_counters, args=(q,))
     p.start()
     time.sleep(5)
-    download("test/file_rand", "C:/Users/notmoor/Desktop/file_rand(downloaded)")
+    # start_time = datetime.datetime.now()
+    # while duration(start_time) < 300:
+    download("test/dummy_rand", "C:/Users/notmoor/Desktop/dummy_rand(downloaded)")
     time.sleep(5)
     q.put("finish")
     p.join()
@@ -44,7 +52,7 @@ if __name__ == '__main__':
     for dot in range(len(bytes_per_second)):
         dots.append(dot)
 
-    plotly.tools.set_credentials_file(username='PLOTLY_USERNAME, api_key=PLOTLY_API_KEY)
+    plotly.tools.set_credentials_file(username=PLOTLY_USERNAME, api_key=PLOTLY_API_KEY)
 
     trace = go.Scatter(
         x = dots,
