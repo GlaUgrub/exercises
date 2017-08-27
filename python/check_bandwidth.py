@@ -15,13 +15,6 @@ PASSWORD = "dummy"
 PLOTLY_USERNAME = "dummy"
 PLOTLY_API_KEY = "dummy"
 
-LOGIN = "efremov.stanislav.v@yandex.ru"
-PASSWORD = "Itisavery9**"
-
-PLOTLY_USERNAME = "glaugrub"
-PLOTLY_API_KEY = "5CHF31RFUmxianUOBOrX"
-
-
 def download(q, src, dst):
     disk = YaDisk(LOGIN, PASSWORD)
     q.put("started")
