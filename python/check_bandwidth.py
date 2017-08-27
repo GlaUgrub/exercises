@@ -19,34 +19,49 @@ def download(src, dst):
     disk = YaDisk(LOGIN, PASSWORD)
     disk.download(src, dst)
 
-def print_counters(q):
-    full_range = 100
-    max_value = 1e7
-    padding = 20
+def calc_average(list_numbers, window):
+    sublist = list_numbers[-window:]
+    ave = float(sum(sublist)) / max(len(sublist), 1)
+    return ave
+
+def print_bandwidth(list_megabytes_per_sec):
+    FULL_RANGE = 100
+    MAX_VALUE_BYTES = 1e7
+    MAX_VALUE_MB = int(MAX_VALUE_BYTES/1e6)
+    PADDING = 70
+    cur_value = list_megabytes_per_sec[len(list_megabytes_per_sec) - 1]
+    num_chars = int(FULL_RANGE * cur_value / MAX_VALUE_BYTES)
+    footer_first = "[0 MB/s    |1        |2        |3        |4        |5        |6        |7        |8        |9        ]10 MB/s"
+    average = str(calc_average((list_megabytes_per_sec), len(list_megabytes_per_sec)) / 1e6)
+    average = average[:3]
+    average_3sec = str(calc_average(list_megabytes_per_sec, 3) / 1e6)
+    average_3sec = average_3sec[:3]
+    footer_last = " -- Average: " + average + " MB/s -- Average 3 sec: "+ average_3sec + " MB/s\r"
+    to_print = "[" + "*"*num_chars + " "*(FULL_RANGE - num_chars) + "]" + " "*PADDING + "\n"
+    footer = footer_first + footer_last
+    sys.stdout.write(to_print)
+    sys.stdout.write(footer)
+    sys.stdout.flush()
+
+def calc_counters(sec):
+    start = psutil.net_io_counters()
+    time.sleep(sec)
+    end = psutil.net_io_counters()
+    diff = end[1] - start[1]
+    return diff
+
+def collect_bandwidth(q, is_print):
+    time.sleep(0.5)
     bytes_per_second = []
     while True:
         if (q.empty() == False):
             q.get()
             q.put(bytes_per_second)
             return
-        start = psutil.net_io_counters()
-        time.sleep(1)
-        end = psutil.net_io_counters()
-        diff = end[1] - start[1]
-        bytes_per_second.append(diff)
-        num_chars = int(full_range * diff / max_value)
-        zero_mbs = "0MB/s"
-        half_mbs = str(int(max_value/2/1e6)) + "MB/s"
-        full_mbs = str(int(max_value/1e6)) + "MB/s"
-        footer_first = "[" + zero_mbs + " "*(full_range//2 - len(zero_mbs)) + "|" + half_mbs
-        footer_second = " "*(full_range - len(footer_first) + 1) + "]" + full_mbs + "\r"
-        to_print = "[" + "*"*num_chars + " "*(full_range - num_chars) + "]" + " "*padding + "\n"
-        footer = footer_first + footer_second
-        sys.stdout.write(to_print)
-        sys.stdout.write(footer)
-        sys.stdout.flush()
-        # print("[" + "*"*num_chars + " "*num_chars_left + "]")
-        # print("[" + "*"*num_chars + " "*num_chars_left + "]")
+        bytes_received = calc_counters(1)
+        bytes_per_second.append(bytes_received)
+        if is_print:
+            print_bandwidth(bytes_per_second)
 
 def duration(start_time):
     cur_time = datetime.datetime.now()
@@ -55,13 +70,11 @@ def duration(start_time):
 
 if __name__ == '__main__':
     q = Queue()
-    p = Process(target=print_counters, args=(q,))
+    p = Process(target=collect_bandwidth, args=(q,True))
     p.start()
-    time.sleep(5)
     # start_time = datetime.datetime.now()
     # while duration(start_time) < 300:
     download("test/file_rand", "C:/Users/notmoor/Desktop/file_rand(downloaded)")
-    time.sleep(5)
     q.put("finish")
     p.join()
     bytes_per_second = q.get()
