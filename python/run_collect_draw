@@ -1,0 +1,166 @@
+import os
+import re
+import subprocess
+import sys
+import matplotlib.pyplot as plt
+import shutil
+
+#################################################################################
+def form_test_list():
+    fourcc_to_name = {
+        "vp8" : {
+            "nv12" : "_",
+        },
+        "vp9" : {
+            "nv12" : "_8b_420_",
+            "p010" : "_10b_420_",
+            "ayuv" : "_8b_444_ayuv_",
+            "y410" : "_10b_444_y410_",
+        },
+        "av1" : {
+            "nv12" : "_8b_420_nv12_",
+            "p010" : "_10b_420_p010_",
+            "ayuv" : "_8b_444_ayuv_",
+            "y410" : "_10b_444_y410_",
+        }
+    }
+    
+    codecs = ["vp8", "vp9", "av1"]
+
+    codec_fourcc = {
+        "vp8" : ["nv12"],
+        "vp9" : ["nv12", "p010", "ayuv", "y410"],
+        "av1" : ["nv12", "p010"]
+    }
+
+    tests = ["init", "query"]
+    test_list = []
+
+    for tst in tests:
+        for cdc in codecs:    
+            for fcc in codec_fourcc[cdc]:
+                dec_name = cdc + "d"
+                test_name = dec_name + fourcc_to_name[cdc][fcc] + tst
+                test_list.append(test_name)
+    
+    return test_list
+
+#################################################################################
+def get_footer(file):
+    cnt = 0
+    lines = list(file)
+    for line in reversed(lines):
+        m = re.search("Global test environment tear-down", line)    
+        if m != None:
+            break
+        cnt = cnt + 1
+    return lines[-cnt :]    
+
+#################################################################################
+def exit_on_error(msg):
+    print(msg)
+    sys.exit()
+    
+#################################################################################
+def get_first_number(string):
+    m = re.search(r"[\d]+", string)
+    if m == None:
+        exit_on_error("[ERROR]: no number in the line:\" " + string + "\"")
+    return int(m.group())
+
+#################################################################################
+def parse_log(log):
+    toparse = open(log, "r")
+    footer = get_footer(toparse)
+    test_info = {
+        "passed" : 0,
+        "failed" : 0,
+        "all" : 0,
+        "failed cases" : []
+    }
+    
+    failed = 0
+    
+    for line in footer:
+        if re.search(r"======", line) != None:
+            test_info["all"] = get_first_number(line)
+        if re.search(r"\[  PASSED  \] ", line) != None:
+            test_info["passed"] = get_first_number(line)
+        if re.search(r"\[  FAILED  \] ", line) != None:
+            if failed == 0:
+                if test_info["failed"] > 0:
+                    exit_on_error("[ERROR]: incorrect \"FAILED\" section\n" + str(test_info))
+                failed = get_first_number(line)
+                test_info["failed"] = get_first_number(line)
+            else:
+                failed = failed - 1
+                m = re.search(r"= [\d]+", line)
+                test_info["failed cases"].append(get_first_number(m.group()))
+
+    if failed != 0:
+        exit_on_error("[ERROR]: Insuficient \"failed\" cases")
+        
+    return test_info
+
+#################################################################################
+def run_one_test(name, foldern):
+    os.chdir(foldern)
+    log_file = "log_" + name + ".txt"
+    cmd = "msdk_gmock_d.exe --gtest_filter=" + name + "./* > " + log_file
+    print(cmd)
+    subprocess.call(cmd, shell=True)
+    return parse_log(log_file)
+
+
+#################################################################################
+def replace_file(old, new, foldern):
+    os.chdir(foldern)
+    if os.path.isfile(old):
+        os.remove(old)
+    shutil.copyfile(new, old)
+    
+#################################################################################
+def form_index(info):
+    index = str(info["passed"]) + "/" + str(info["all"])
+    if info["failed"] > 0:
+        index = index + " ("
+        for fld in info["failed cases"]:
+            index = index + str(fld) + " "
+        index = index[:-1] + ")"
+    return index
+    
+#################################################################################
+
+foldern = r"D:\git_msdk\clean_master\build\win_x64\bin"
+lib = "libmfxhw64_d.dll"
+lib_before = "libmfxhw64_d_before.dll"
+lib_after = "libmfxhw64_d_after.dll"
+
+test_list = form_test_list()
+print(test_list)
+
+col_labels = ['before','after']
+row_labels = test_list
+table_vals = []
+
+for tst in test_list:
+    table_line = []    
+    #before
+    replace_file(lib, lib_before, foldern)
+    info = run_one_test(tst, foldern)
+    index = form_index(info)
+    table_line.append(index)
+    print(index)
+    #after
+    replace_file(lib, lib_after, foldern)
+    info = run_one_test(tst, foldern)
+    index = form_index(info)
+    table_line.append(index)
+    print(index)
+    table_vals.append(table_line)    
+
+the_table = plt.table(cellText=table_vals,    
+    rowLabels=row_labels, colLabels=col_labels,
+    cellLoc = 'center', rowLoc = 'center', loc = 'top')
+# plt.subplots_adjust(left=0.2, top=0.8)
+plt.draw()
