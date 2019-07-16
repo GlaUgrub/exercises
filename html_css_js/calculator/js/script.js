@@ -6,16 +6,31 @@ function add_percent(value, perc) {
 document.
     addEventListener("DOMContentLoaded",
 		     function (event) {
-			 var given = {};
-			 var years = 0;
+
+			 function setNumberById(id, number) {
+			     document.querySelector(id).value = number;
+			 }
+
+			 function applyDefaults(defaults) {
+			     setNumberById("#years", defaults.years);
+			     setNumberById("#init_summ", defaults.init_summ);
+			     setNumberById("#capital_increase", defaults.capital_increase);
+			     setNumberById("#init_salary", defaults.init_salary);
+			     setNumberById("#salary_increase", defaults.salary_increase);
+			 }
+
+			 ajaxUtils
+			     .sendGetRequest("data/defaults.json", applyDefaults);
 
 			 function parseNumberById(id) {
-			     console.log(id);
 			     return Number(document.querySelector(id).value);
 			 }
 
+
  		     	 function calculate(event) {
-			     years = parseNumberById("#years");
+			     var years = parseNumberById("#years");
+
+			     var given = {};
 		     	     given.init_summ = parseNumberById("#init_summ");
                              given.capital_increase = parseNumberById("#capital_increase");
 			     given.init_salary = parseNumberById("#init_salary");
