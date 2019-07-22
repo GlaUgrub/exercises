@@ -7,13 +7,16 @@ document.
     addEventListener("DOMContentLoaded",
 		     function (event) {
 
+			 var output = document.querySelector("#output");
+			 output.style.display = "none";
+
 			 function Data() {
 			     this.years = 4;
 			     this.init_summ = 15000000;
 			     this.capital_increase = 10;
 			     this.init_salary = 2500000;
 			     this.salary_increase = 7;
-			 }
+			 }			 
 
 			 function setNumberById(id, number) {
 			     document.querySelector(id).value = number;
@@ -81,6 +84,7 @@ document.
 			 function doWork(event) {
 			     results = calculate();
 			     outputResults(results);
+			     output.style.display = "block";
 			 }
 
 			 document.querySelector("button").addEventListener("click", doWork);
