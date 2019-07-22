@@ -14,7 +14,7 @@ document.
 			     this.years = 4;
 			     this.init_summ = 15000000;
 			     this.capital_increase = 10;
-			     this.init_salary = 2500000;
+			     this.init_salary = 350000;
 			     this.salary_increase = 7;
 			 }			 
 
@@ -49,7 +49,14 @@ document.
 			     data.years = parseNumberById("#years");
      		     	     data.init_summ = parseNumberById("#init_summ");
                              data.capital_increase = parseNumberById("#capital_increase");
-			     data.init_salary = parseNumberById("#init_salary");
+			     var salary = parseNumberById("#init_salary");
+			     var salary_term = document.querySelector("#salary_term").value;
+			     if (salary_term === "month") {
+				 data.init_salary = salary * 12;
+			     }
+			     else {
+				 data.init_salary = salary;
+			     }
 			     data.salary_increase = parseNumberById("#salary_increase");
 			 }
 
@@ -61,7 +68,7 @@ document.
 
 			     yearly_results = [];
 
-			     for (var i = 0; i < data.years; i++) {				 
+			     for (var i = 0; i < data.years; i++) {
 				 summ = add_percent(summ, data.capital_increase);
 				 summ += salary;
 				 salary = add_percent(salary, data.salary_increase);
@@ -80,7 +87,7 @@ document.
 				 out_region.innerHTML += "<p>" + line + "</p>";
 			     }
 			 }
-			 
+
 			 function doWork(event) {
 			     results = calculate();
 			     outputResults(results);
