@@ -29,16 +29,8 @@ document.
         setNumberById("#salary_increase", defaults.salary_increase);
       }
 
-      var init_by_ajax = false;
       var data = new Data();
-
-      if (init_by_ajax) {
-        ajaxUtils
-          .sendGetRequest("data/defaults.json", fillDefaults);
-      }
-      else {
-        fillDefaults(data);
-      }
+      fillDefaults(data);
 
       function parseNumberById(id) {
         return Number(document.querySelector(id).value);
