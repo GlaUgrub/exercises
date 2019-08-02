@@ -8,38 +8,58 @@
   </head>
   <body>
     <header>
-      <a href="index.html"><h1 id="main_topic">Калькулятор капитала</h1></a>
+      <h1 id="main_topic">Калькулятор капитала</h1>
     </header>
 
-    <p>
-      <span class="description">Количество лет</span>
-      <input id="years" type="text">
-    </p>
-    <p>
-      <span class="description">Начальный капитал</span>
-      <input id="init_summ" type="text">
-    </p>
-    <p>
-      <span class="description">Прирост капитала в год (%)</span>
-      <input id="capital_increase" type="text">
-    </p>
-    <p>
-      <span class="description">Исходная зарплата</span>
-      <input id="init_salary" type="text">
-      <select id="salary_term">
-        <option selected value="month">В месяц</option>
-        <option value="year">В год</option>
-      </select>
-    </p>
-    <p>
-      <span class="description">Увеличение зарплаты в год (%)</span>
-      <input id="salary_increase" type="text">
-    </p>
-    <button>
-      Посчитать
-    </button>
-    <section id="output">
-      <!-- Результат: -->
-    </section>
+    <div id="all_content">
+      <section id="controls">
+
+        <!-- input fields -->
+        <p>
+          <span class="description">Количество лет</span>
+          <input id="years" type="text">
+        </p>
+        <p>
+          <span class="description">Начальный капитал</span>
+          <input id="init_summ" type="text">
+        </p>
+        <p>
+          <span class="description">Прирост капитала в год (%)</span>
+          <input id="capital_increase" type="text">
+        </p>
+        <p>
+          <span class="description">Исходная зарплата</span>
+          <input id="init_salary" type="text">
+          <select id="salary_term">
+            <option selected value="month">В месяц</option>
+            <option value="year">В год</option>
+          </select>
+        </p>
+        <p>
+          <span class="description">Увеличение зарплаты в год (%)</span>
+          <input id="salary_increase" type="text">
+        </p>
+
+        <!-- button -->
+        <p id="button">
+          <button>
+            Посчитать
+          </button>
+        </p>
+
+      </section>
+
+      <section class="output" id="output_text">
+        <!-- print text result here: -->
+      </section>
+
+      <section class="output" id="output_pic">
+        <canvas id="chart">
+          <!-- print chart here -->
+        </canvas>
+      </section>
+
+    </div> <!-- all_content -->
+
   </body>
 </html>

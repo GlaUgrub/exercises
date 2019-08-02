@@ -6,8 +6,8 @@ function add_percent(value, perc) {
 document.
   addEventListener("DOMContentLoaded",
     function (event) {
-      var output = document.querySelector("#output");
-      output.style.display = "none";
+      var output_text = document.querySelector("#output_text");
+      output_text.style.display = "none";
 
       function Data() {
         this.years = 4;
@@ -70,7 +70,7 @@ document.
       }
 
       function outputResults(yearly) {
-        var out_region = document.querySelector("#output");
+        var out_region = document.querySelector("#output_text");
         out_region.innerHTML = "<p>Результат:</p>";
 
         for (var i = 0; i < yearly.length; i++) {
@@ -82,7 +82,7 @@ document.
       function doWork(event) {
         results = calculate();
         outputResults(results);
-        output.style.display = "block";
+        output_text.style.display = "block";
       }
 
       document.querySelector("button").addEventListener("click", doWork);
