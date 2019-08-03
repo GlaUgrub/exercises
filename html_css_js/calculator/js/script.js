@@ -1,8 +1,3 @@
-function add_percent(value, perc) {
-    value += value * perc / 100;
-    return value;
-}
-
 document.
   addEventListener("DOMContentLoaded",
     function (event) {
@@ -13,7 +8,7 @@ document.
         this.years = 4;
         this.init_summ = 15000000;
         this.capital_increase = 10;
-        this.init_salary = 350000;
+        this.init_salary = 300000;
         this.salary_increase = 7;
       }
 
@@ -54,16 +49,12 @@ document.
       function calculate() {
         parseData();
 
-        var summ = data.init_summ;
-        var salary = data.init_salary;
+        var yearly_results = [];
 
-        yearly_results = [];
-
+        var calc = new Calculator(data);
         for (var i = 0; i < data.years; i++) {
-          summ = add_percent(summ, data.capital_increase);
-          summ += salary;
-          salary = add_percent(salary, data.salary_increase);
-          yearly_results[i] = summ;
+          calc.liveAYear();
+          yearly_results[i] = calc.getTotal();
         }
 
         return yearly_results;
@@ -83,6 +74,7 @@ document.
         results = calculate();
         outputResults(results);
         output_text.style.display = "block";
+        calcLevels(results[results.length - 1]);
       }
 
       document.querySelector("button").addEventListener("click", doWork);
