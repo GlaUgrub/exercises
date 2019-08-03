@@ -57,24 +57,36 @@ document.
           yearly_results[i] = calc.getTotal();
         }
 
-        return yearly_results;
+        var calculated_data = {
+          yearly: yearly_results,
+          calculator: calc
+        }
+
+        return calculated_data;
       }
 
-      function outputResults(yearly) {
+      function outputResults(calculated_data) {
         var out_region = document.querySelector("#output_text");
         out_region.innerHTML = "<p>Результат:</p>";
 
+        var yearly = calculated_data.yearly;
         for (var i = 0; i < yearly.length; i++) {
           var line = "Год " + (i + 1) + ": " + yearly[i];
           out_region.innerHTML += "<p>" + line + "</p>";
         }
+
+        var result = calculated_data.calculator.runtime_data;
+        var total = "Income from capital = " + result.acc_cap_inc + ", Salary = " + result.acc_sal + ", Income from salary = " + result.acc_sal_inc;
+        out_region.innerHTML += "<p>" + total + "</p>";
+
       }
 
       function doWork(event) {
         results = calculate();
         outputResults(results);
         output_text.style.display = "block";
-        calcLevels(results[results.length - 1]);
+        var levels = calcLevels(results.calculator.getTotal());
+        console.log(levels);
       }
 
       document.querySelector("button").addEventListener("click", doWork);
