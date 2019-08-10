@@ -14,18 +14,13 @@
 
 .output {
     clear: left;
-    width: 400px;
 }
 
 #output_text {
     border: solid grey 1px;
     padding: 20px;
-    margin-bottom: 30px;;
-}
-
-#output_pic {
-    border: solid grey 1px;
-    padding: 10px;
+    margin-bottom: 30px;
+    width: 400px;
 }
 
 #all_content {
@@ -46,4 +41,8 @@ header {
     padding-top: 10px;
     padding-bottom: 10px;
     clear: left;
+}
+
+canvas {
+    background: white;
 }

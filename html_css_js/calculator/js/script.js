@@ -71,13 +71,13 @@ document.
 
         var yearly = calculated_data.yearly;
         for (var i = 0; i < yearly.length; i++) {
-          var line = "Год " + (i + 1) + ": " + yearly[i];
+          var line = "Год " + (i + 1) + ": " + numberWithCommas(yearly[i]);
           out_region.innerHTML += "<p>" + line + "</p>";
         }
 
-        var result = calculated_data.calculator.runtime_data;
-        var total = "Income from capital = " + result.acc_cap_inc + ", Salary = " + result.acc_sal + ", Income from salary = " + result.acc_sal_inc;
-        out_region.innerHTML += "<p>" + total + "</p>";
+        // var result = calculated_data.calculator.runtime_data;
+        // var total = "Income from capital = " + result.acc_cap_inc + ", Salary = " + result.acc_sal + ", Income from salary = " + result.acc_sal_inc;
+        // out_region.innerHTML += "<p>" + total + "</p>";
 
       }
 
@@ -85,8 +85,67 @@ document.
         results = calculate();
         outputResults(results);
         output_text.style.display = "block";
-        var levels = calcLevels(results.calculator.getTotal());
-        console.log(levels);
+
+        var grand_total = results.calculator.getTotal();
+
+        var calc = results.calculator;
+        var init_summ = calc.init_summ;
+        var nums = calc.runtime_data;
+
+        var my_chart = new Chart(grand_total, 5, "#chart");
+        my_chart.drawGrid("#000000");
+
+        var bars = {
+          init_sum: {
+            height: init_summ,
+            color: "#003f5c",
+            text: numberWithCommas(init_summ),
+            legend: "Начальный капитал"
+          },
+          acc_cap_inc: {
+            height: nums.acc_cap_inc,
+            color: "#58508d",
+            text: numberWithCommas(nums.acc_cap_inc),
+            legend: "Доход от инвестирования начального капитала"
+          },
+          acc_sal: {
+            height: nums.acc_sal,
+            color: "#bc5090",
+            text: numberWithCommas(nums.acc_sal),
+            legend: "Зарплата"
+          },
+          acc_sal_inc: {
+            height: nums.acc_sal_inc,
+            color: "#ff6361",
+            text: numberWithCommas(nums.acc_sal_inc),
+            legend: "Доход от инвестирования зарплаты"
+          }
+        };
+
+        var blocks_for_joint_bar = []
+
+        for (var bar in bars) {
+          var blocks = [bars[bar]];
+          my_chart.addBar(blocks);
+
+          blocks_for_joint_bar[bar] = bars[bar];
+        }
+
+        my_chart.addBar(blocks_for_joint_bar);
+
+        var legend = document.querySelector("legend[for='chart']");
+        if (!legend.hasChildNodes()) {
+          var ul = document.createElement("ul");
+          legend.append(ul);
+          for (var bar in bars) {
+            var li = document.createElement("li");
+            li.style.listStyle = "none";
+            li.style.borderLeft = "20px solid " + bars[bar].color;
+            li.style.padding = "5px";
+            li.textContent = bars[bar].legend;
+            ul.append(li);
+          }
+        }
       }
 
       document.querySelector("button").addEventListener("click", doWork);
